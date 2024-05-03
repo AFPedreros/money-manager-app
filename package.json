@@ -1,7 +1,8 @@
 {
   "scripts": {
+    "start": "tsx server/index.ts",
     "dev": "tsx watch server/index.ts",
-    "build": "npx tsc"
+    "build": "tsx server/index.ts cd frontend && npm run build"
   },
   "dependencies": {
     "@hono/node-server": "^1.11.1",
