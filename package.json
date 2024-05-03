@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "dev": "tsx watch server/index.ts"
+    "dev": "tsx watch server/index.ts",
+    "build": "tsc"
   },
   "dependencies": {
     "@hono/node-server": "^1.11.1",
