@@ -2,8 +2,8 @@
   "scripts": {
     "start": "tsx server/index.ts",
     "dev": "tsx watch server/index.ts",
-    "build": "npm run build:server && npm run build:frontend",
-    "build:server": "tsx server/index.ts",
+    "build": "npm run build:frontend && npm run build:server",
+    "build:server": "cd .. tsx server/index.ts",
     "build:frontend": "cd frontend && npm run build"
   },
   "dependencies": {
