@@ -28,8 +28,8 @@ export const expensesRoute = new Hono()
 
     return c.json({ id });
   })
-  .get("/:id{[0-9]+}", (c) => {
-    const id = Number.parseInt(c.req.param("id"));
+  .get("/total-spent", (c) => {
+    const total = 200000;
 
-    return c.json({ id });
+    return c.json({ total });
   });

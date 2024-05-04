@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "tsx watch server/index.ts",
-    "build": "npm install",
+    "dev:frontend": "cd frontend && npm run dev",
     "start": "tsx server/index.ts"
   },
   "dependencies": {

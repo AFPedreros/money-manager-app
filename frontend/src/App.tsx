@@ -1,6 +1,23 @@
 import { Card, CardHeader, CardBody } from "@nextui-org/card";
+import { api } from "./lib/api";
+import { useQuery } from "@tanstack/react-query";
+
+async function getTotalSpent() {
+  const response = await api.expenses["total-spent"].$get();
+  if (!response.ok) {
+    throw new Error("Failed to fetch total spent");
+  }
+
+  const data = await response.json();
+  return data;
+}
 
 export default function App() {
+  const { data } = useQuery({
+    queryKey: ["total-spent"],
+    queryFn: getTotalSpent,
+  });
+
   return (
     <div className="flex h-full w-full items-center justify-center">
       <Card
@@ -12,7 +29,7 @@ export default function App() {
         </CardHeader>
 
         <CardBody className="">
-          <p className="">$0.00</p>
+          <p className="">${data?.total}</p>
         </CardBody>
       </Card>
     </div>
