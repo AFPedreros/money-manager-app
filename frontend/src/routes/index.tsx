@@ -19,7 +19,7 @@ async function getTotalSpent() {
 
 export default function Index() {
   const { data } = useQuery({
-    queryKey: ["total-spent"],
+    queryKey: ["get-total-spent"],
     queryFn: getTotalSpent,
   });
 
