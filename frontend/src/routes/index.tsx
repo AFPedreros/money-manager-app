@@ -1,6 +1,11 @@
+import { createFileRoute } from "@tanstack/react-router";
 import { Card, CardHeader, CardBody } from "@nextui-org/card";
-import { api } from "./lib/api";
+import { api } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
+
+export const Route = createFileRoute("/")({
+  component: Index,
+});
 
 async function getTotalSpent() {
   const response = await api.expenses["total-spent"].$get();
@@ -12,7 +17,7 @@ async function getTotalSpent() {
   return data;
 }
 
-export default function App() {
+export default function Index() {
   const { data } = useQuery({
     queryKey: ["total-spent"],
     queryFn: getTotalSpent,
