@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Card, CardHeader, CardBody } from "@nextui-org/card";
 import { api } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
+import { formatCurrency } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -25,18 +26,20 @@ export default function Index() {
 
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <Card
-        isBlurred
-        className="min-w-[200px] border-transparent bg-white/5 backdrop-blur-lg backdrop-saturate-[1.8] dark:bg-default-400/10"
-      >
-        <CardHeader className="">
-          <p className="text-xl font-semibold">Total gastos</p>
-        </CardHeader>
+      {data && (
+        <Card
+          isBlurred
+          className="min-w-[200px] border-transparent bg-white/5 backdrop-blur-lg backdrop-saturate-[1.8] dark:bg-default-400/10"
+        >
+          <CardHeader className="">
+            <p className="text-xl font-semibold">Total gastos</p>
+          </CardHeader>
 
-        <CardBody className="">
-          <p className="">${data?.total}</p>
-        </CardBody>
-      </Card>
+          <CardBody className="">
+            <p className="">{formatCurrency(data.total)}</p>
+          </CardBody>
+        </Card>
+      )}
     </div>
   );
 }

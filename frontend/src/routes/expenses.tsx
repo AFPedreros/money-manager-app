@@ -1,6 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { api } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+  Skeleton,
+} from "@nextui-org/react";
+import { formatCurrency } from "@/lib/utils";
 
 export const Route = createFileRoute("/expenses")({
   component: Expenses,
@@ -18,12 +28,49 @@ async function getAllExpenses() {
 }
 
 function Expenses() {
-  const { data } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["get-all-expenses"],
     queryFn: getAllExpenses,
   });
 
-  console.log("DATA", data);
+  return (
+    <div className="p-6">
+      <Table color="primary" selectionMode="single" aria-label="Expenses table">
+        <TableHeader>
+          <TableColumn>TITLE</TableColumn>
+          <TableColumn>AMOUNT</TableColumn>
+        </TableHeader>
 
-  return <div className="p-2">Hello Expenses!</div>;
+        <TableBody
+          emptyContent={
+            data?.expenses?.length ? undefined : "No rows to display."
+          }
+        >
+          {isPending
+            ? Array(3)
+                .fill(0)
+                .map((_, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      <Skeleton className="rounded-md">
+                        <div className="h-4 rounded-md bg-default-300" />
+                      </Skeleton>
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="rounded-md">
+                        <div className="h-4 rounded-md bg-default-300" />
+                      </Skeleton>
+                    </TableCell>
+                  </TableRow>
+                ))
+            : (data?.expenses || []).map((expense) => (
+                <TableRow key={expense.id}>
+                  <TableCell>{expense.title}</TableCell>
+                  <TableCell>{formatCurrency(expense.amount)}</TableCell>
+                </TableRow>
+              ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
 }
