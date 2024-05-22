@@ -4,6 +4,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./styles/index.css";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { Toaster } from "sonner";
 
 import { routeTree } from "./routeTree.gen";
 
@@ -23,6 +24,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <QueryClientProvider client={queryClient}>
         <main className="min-h-screen w-full bg-background text-foreground dark">
           <RouterProvider router={router} />
+          <Toaster richColors />
         </main>
       </QueryClientProvider>
     </NextUIProvider>
