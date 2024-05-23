@@ -1,9 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Button, Input } from "@nextui-org/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { api } from "@/lib/api";
+import { getOrCreateUUID } from "@/lib/utils";
 
 export const Route = createFileRoute("/create-expense")({
   component: Expenses,
@@ -15,6 +17,7 @@ const formSchema = z.object({
 });
 
 function Expenses() {
+  const navigate = useNavigate();
   const {
     formState: { isValid, isSubmitting, dirtyFields, errors },
     control,
@@ -31,9 +34,21 @@ function Expenses() {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("VALUES", { values });
+    const uuid = getOrCreateUUID();
+    console.log("VALUES", { values }, uuid);
+
+    const response = await api.expenses.$post({
+      json: values,
+    });
+
+    if (!response.ok) {
+      toast.error("Error creating expense");
+      return;
+    }
+
     reset();
     toast.success("Expense created!");
+    navigate({ to: "/expenses" });
   };
 
   return (
