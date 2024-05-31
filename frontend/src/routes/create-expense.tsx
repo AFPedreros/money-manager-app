@@ -34,8 +34,8 @@ function Expenses() {
 	});
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-		const uuid = getOrCreateUUID();
-		console.log('Valores:', { values }, uuid);
+		const userId = getOrCreateUUID();
+		console.log('Valores:', { values }, userId);
 
 		const response = await api.expenses.$post({
 			json: values,
@@ -56,7 +56,10 @@ function Expenses() {
 			<div className="flex flex-col items-center justify-center max-w-sm gap-4 ">
 				<h2 className="w-fit"> Hello Create Expense!</h2>
 
-				<form className="flex flex-col w-full gap-4" onSubmit={handleSubmit(onSubmit)}>
+				<form
+					className="flex flex-col w-full gap-4"
+					onSubmit={handleSubmit(onSubmit)}
+				>
 					<Controller
 						name="title"
 						control={control}
@@ -97,7 +100,11 @@ function Expenses() {
 							/>
 						)}
 					/>
-					<Button color="primary" type="submit" isDisabled={!isValid || isSubmitting}>
+					<Button
+						color="primary"
+						type="submit"
+						isDisabled={!isValid || isSubmitting}
+					>
 						Submit
 					</Button>
 				</form>
