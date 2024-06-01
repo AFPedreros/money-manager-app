@@ -6,7 +6,7 @@ import { db } from '../db';
 import { expenses as expensesTable } from '../db/schema/expenses';
 import { eq } from 'drizzle-orm';
 
-const expenses = [
+const fakeExpenses = [
 	{ id: 1, title: 'Comida', amount: 20000 },
 	{ id: 2, title: 'Ropa', amount: 50000 },
 	{ id: 3, title: 'Transporte', amount: 30000 },
@@ -14,8 +14,9 @@ const expenses = [
 
 const expenseSchema = z.object({
 	id: z.number().int().positive().min(1),
+	userId: z.string().min(1),
 	title: z.string().min(3).max(100),
-	amount: z.number().int().positive(),
+	amount: z.number().int().positive().min(1),
 });
 
 const userIdSchema = z.object({
@@ -31,7 +32,7 @@ export const expensesRoute = new Hono()
 		const data = await c.req.valid('query');
 		const { userId } = data;
 
-		const expenses = db
+		const expenses = await db
 			.select()
 			.from(expensesTable)
 			.where(eq(expensesTable.userId, userId));
@@ -42,16 +43,24 @@ export const expensesRoute = new Hono()
 		const data = await c.req.valid('json');
 		const expense = createExpenseSchema.parse(data);
 
-		console.log({ expense });
-		return c.json(expense);
+		const result = await db
+			.insert(expensesTable)
+			.values({ ...expense })
+			.returning();
+
+		return c.json(result);
 	})
 	.delete('/:id{[0-9]+}', (c) => {
 		const id = Number.parseInt(c.req.param('id'));
 
+		c.status(201);
 		return c.json({ id });
 	})
 	.get('/total-spent', (c) => {
-		const total = expenses.reduce((acc, expense) => acc + expense.amount, 0);
+		const total = fakeExpenses.reduce(
+			(acc, expense) => acc + expense.amount,
+			0
+		);
 
 		return c.json({ total });
 	});

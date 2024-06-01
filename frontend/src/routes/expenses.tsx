@@ -19,7 +19,7 @@ export const Route = createFileRoute('/expenses')({
 
 async function getAllExpenses() {
 	const userId = getOrCreateUUID();
-	console.log('USER ID', userId);
+
 	const response = await api.expenses.$get({
 		query: { userId },
 	});

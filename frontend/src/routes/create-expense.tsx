@@ -17,6 +17,7 @@ const formSchema = z.object({
 });
 
 function Expenses() {
+	const userId = getOrCreateUUID();
 	const navigate = useNavigate();
 	const {
 		formState: { isValid, isSubmitting, dirtyFields, errors },
@@ -38,7 +39,7 @@ function Expenses() {
 		console.log('Valores:', { values }, userId);
 
 		const response = await api.expenses.$post({
-			json: values,
+			json: { ...values, userId },
 		});
 
 		if (!response.ok) {
