@@ -7,14 +7,18 @@ import { z } from 'zod';
 import { api } from '@/lib/api';
 import { getOrCreateUUID } from '@/lib/utils';
 
+import { createExpenseSchema } from '@server/sharedTypes';
+
 export const Route = createFileRoute('/create-expense')({
 	component: Expenses,
 });
 
-const formSchema = z.object({
-	title: z.string().min(3, 'Se necesita un título con más de 3 caracteres'),
-	amount: z.number().positive('El monto debe ser positivo'),
-});
+const formSchema = createExpenseSchema.omit({ userId: true });
+
+// const formSchema = z.object({
+// 	title: z.string().min(3, 'Se necesita un título con más de 3 caracteres'),
+// 	amount: z.number().positive('El monto debe ser positivo'),
+// });
 
 function Expenses() {
 	const userId = getOrCreateUUID();
@@ -29,13 +33,12 @@ function Expenses() {
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			title: '',
-			amount: 0,
+			amount: '',
 		},
 		mode: 'onChange',
 	});
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-		const userId = getOrCreateUUID();
 		console.log('Valores:', { values }, userId);
 
 		const response = await api.expenses.$post({
@@ -96,7 +99,7 @@ function Expenses() {
 								errorMessage={errors.amount?.message}
 								isDisabled={isSubmitting}
 								{...field}
-								value={field.value !== 0 ? field.value.toString() : ''}
+								// value={field.value !== 0 ? field.value.toString() : ''}
 								onChange={(e) => field.onChange(Number(e.target.value))}
 							/>
 						)}
