@@ -11,12 +11,6 @@ import { eq } from 'drizzle-orm';
 
 import { createExpenseSchema } from '../sharedTypes';
 
-const fakeExpenses = [
-	{ id: 1, title: 'Comida', amount: 20000 },
-	{ id: 2, title: 'Ropa', amount: 50000 },
-	{ id: 3, title: 'Transporte', amount: 30000 },
-];
-
 const userIdSchema = z.object({
 	userId: z.string(),
 });
@@ -55,10 +49,7 @@ export const expensesRoute = new Hono()
 		return c.json({ id });
 	})
 	.get('/total-spent', (c) => {
-		const total = fakeExpenses.reduce(
-			(acc, expense) => acc + expense.amount,
-			0
-		);
+		const total = 1000;
 
 		return c.json({ total });
 	});

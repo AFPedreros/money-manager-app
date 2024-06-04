@@ -1,21 +1,23 @@
 {
-  "scripts": {
-    "dev": "tsx watch server/index.ts",
-    "dev:frontend": "cd frontend && npm run dev",
-    "start": "tsx server/index.ts"
-  },
-  "dependencies": {
-    "@hono/node-server": "^1.11.1",
-    "@hono/zod-validator": "^0.2.1",
-    "@neondatabase/serverless": "^0.9.3",
-    "drizzle-orm": "^0.30.10",
-    "drizzle-zod": "^0.5.1",
-    "hono": "^4.2.9",
-    "zod": "^3.23.5"
-  },
-  "devDependencies": {
-    "@types/node": "^20.11.17",
-    "drizzle-kit": "^0.21.4",
-    "tsx": "^4.7.1"
-  }
+	"scripts": {
+		"dev": "tsx watch server/index.ts",
+		"dev:frontend": "cd frontend && npm run dev",
+		"start": "tsx server/index.ts"
+	},
+	"dependencies": {
+		"@hono/node-server": "^1.11.1",
+		"@hono/zod-validator": "^0.2.1",
+		"@neondatabase/serverless": "^0.9.3",
+		"dotenv": "^16.4.5",
+		"drizzle-orm": "^0.30.10",
+		"drizzle-zod": "^0.5.1",
+		"hono": "^4.2.9",
+		"pg": "^8.11.5",
+		"zod": "^3.23.5"
+	},
+	"devDependencies": {
+		"@types/node": "^20.11.17",
+		"drizzle-kit": "^0.21.4",
+		"tsx": "^4.7.1"
+	}
 }

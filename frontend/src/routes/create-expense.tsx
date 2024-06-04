@@ -15,11 +15,6 @@ export const Route = createFileRoute('/create-expense')({
 
 const formSchema = createExpenseSchema.omit({ userId: true });
 
-// const formSchema = z.object({
-// 	title: z.string().min(3, 'Se necesita un título con más de 3 caracteres'),
-// 	amount: z.number().positive('El monto debe ser positivo'),
-// });
-
 function Expenses() {
 	const userId = getOrCreateUUID();
 	const navigate = useNavigate();
@@ -39,8 +34,6 @@ function Expenses() {
 	});
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-		console.log('Valores:', { values }, userId);
-
 		const response = await api.expenses.$post({
 			json: { ...values, userId },
 		});
@@ -99,8 +92,6 @@ function Expenses() {
 								errorMessage={errors.amount?.message}
 								isDisabled={isSubmitting}
 								{...field}
-								// value={field.value !== 0 ? field.value.toString() : ''}
-								onChange={(e) => field.onChange(Number(e.target.value))}
 							/>
 						)}
 					/>
