@@ -1,45 +1,49 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Card, CardHeader, CardBody } from "@nextui-org/card";
-import { api } from "@/lib/api";
-import { useQuery } from "@tanstack/react-query";
-import { formatCurrency } from "@/lib/utils";
+import { createFileRoute } from '@tanstack/react-router'
+import { Card, CardHeader, CardBody } from '@nextui-org/card'
+import { api } from '@/lib/api'
+import { useQuery } from '@tanstack/react-query'
+import { formatCurrency, getOrCreateUUID } from '@/lib/utils'
 
-export const Route = createFileRoute("/")({
-  component: Index,
-});
+export const Route = createFileRoute('/')({
+  component: Index
+})
 
 async function getTotalSpent() {
-  const response = await api.expenses["total-spent"].$get();
+  const userId = getOrCreateUUID()
+  const response = await api.expenses['total-spent'].$get({
+    query: { userId }
+  })
   if (!response.ok) {
-    throw new Error("Failed to fetch total spent");
+    throw new Error('Failed to fetch total spent')
   }
 
-  const data = await response.json();
-  return data;
+  const data = await response.json()
+  return data
 }
 
 export default function Index() {
   const { data } = useQuery({
-    queryKey: ["get-total-spent"],
-    queryFn: getTotalSpent,
-  });
+    queryKey: ['get-total-spent'],
+    queryFn: getTotalSpent
+  })
 
   return (
-    <div className="flex h-full w-full items-center justify-center">
+    <div className="flex items-center justify-center w-full h-full">
       {data && (
         <Card
           isBlurred
-          className="min-w-[200px] border-transparent bg-white/5 backdrop-blur-lg backdrop-saturate-[1.8] dark:bg-default-400/10"
+          className="dark:bg-default-400/10 min-w-[200px] border-transparent bg-white/5 backdrop-blur-lg backdrop-saturate-[1.8]"
         >
           <CardHeader className="">
             <p className="text-xl font-semibold">Total gastos</p>
           </CardHeader>
 
           <CardBody className="">
-            <p className="">{formatCurrency(data.total)}</p>
+            {!!data.total && <p className="">{formatCurrency(data.total)}</p>}
+            {!data.total && <p className="">No expenses saved</p>}
           </CardBody>
         </Card>
       )}
     </div>
-  );
+  )
 }
