@@ -1,4 +1,4 @@
-import { api } from "@/lib/api";
+import { api } from "@/api";
 import { formatCurrency, getOrCreateUUID } from "@/lib/utils";
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import { useQuery } from "@tanstack/react-query";

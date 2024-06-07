@@ -1,9 +1,14 @@
-import { api } from "@/lib/api";
+import {
+  createExpense,
+  getAllExpensesQueryOptions,
+  loadingCreateExpenseQueryOptions,
+} from "@/api/expenses";
 import { getOrCreateUUID } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { parseDate } from "@internationalized/date";
 import { Button, DatePicker, Input } from "@nextui-org/react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -17,15 +22,17 @@ export const Route = createFileRoute("/create-expense")({
 const formSchema = createExpenseSchema.omit({ userId: true });
 
 function Expenses() {
+  const queryClient = useQueryClient();
+
   const userId = getOrCreateUUID();
-  const navigate = useNavigate();
   const today = new Date().toISOString().split("T")[0];
+
   const {
     formState: { isValid, isSubmitting, dirtyFields, errors },
     control,
     setValue,
-    reset,
     handleSubmit,
+    reset,
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,25 +44,44 @@ function Expenses() {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const response = await api.expenses.$post({
-      json: { ...values, userId },
+    const existingExpenses = await queryClient.ensureQueryData(
+      getAllExpensesQueryOptions,
+    );
+
+    // navigate({ to: "/expenses" });
+
+    const data = {
+      ...values,
+      userId,
+    };
+
+    queryClient.setQueryData(loadingCreateExpenseQueryOptions.queryKey, {
+      expense: data,
     });
 
-    if (!response.ok) {
-      toast.error("Error creating expense");
-      return;
-    }
+    try {
+      const newExpense = await createExpense({ values: data });
 
-    reset();
-    toast.success("Expense created!");
-    navigate({ to: "/expenses" });
+      queryClient.setQueryData(getAllExpensesQueryOptions.queryKey, {
+        ...existingExpenses,
+        expenses: [newExpense, ...existingExpenses.expenses],
+      });
+      toast.success("Expense created!");
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "An unknown error occurred";
+      toast.error(errorMessage);
+    } finally {
+      queryClient.setQueryData(loadingCreateExpenseQueryOptions.queryKey, {});
+      reset();
+    }
   };
 
   return (
     <div className="w-full p-6">
       <div className="flex flex-col gap-4 ">
         <form
-          className="flex flex-col w-full gap-4"
+          className="flex flex-col w-full gap-4 p-4 rounded-large shadow-small bg-content1"
           onSubmit={handleSubmit(onSubmit)}
         >
           <Controller
@@ -66,8 +92,6 @@ function Expenses() {
                 type="text"
                 placeholder="Cat food"
                 fullWidth
-                isClearable
-                onClear={() => setValue("title", "")}
                 label="Title"
                 isRequired
                 isInvalid={!!errors.title && dirtyFields.title}

@@ -23,6 +23,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@iconify/react": "^5.0.1",
     "@tanstack/router-devtools": "^1.32.9",
     "@tanstack/router-vite-plugin": "^1.32.2",
     "@types/react": "^18.2.66",
