@@ -1,31 +1,31 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { Card, CardHeader, CardBody } from '@nextui-org/card'
-import { api } from '@/lib/api'
-import { useQuery } from '@tanstack/react-query'
-import { formatCurrency, getOrCreateUUID } from '@/lib/utils'
+import { api } from "@/lib/api";
+import { formatCurrency, getOrCreateUUID } from "@/lib/utils";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
+import { useQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/')({
-  component: Index
-})
+export const Route = createFileRoute("/")({
+  component: Index,
+});
 
 async function getTotalSpent() {
-  const userId = getOrCreateUUID()
-  const response = await api.expenses['total-spent'].$get({
-    query: { userId }
-  })
+  const userId = getOrCreateUUID();
+  const response = await api.expenses["total-spent"].$get({
+    query: { userId },
+  });
   if (!response.ok) {
-    throw new Error('Failed to fetch total spent')
+    throw new Error("Failed to fetch total spent");
   }
 
-  const data = await response.json()
-  return data
+  const data = await response.json();
+  return data;
 }
 
 export default function Index() {
   const { data } = useQuery({
-    queryKey: ['get-total-spent'],
-    queryFn: getTotalSpent
-  })
+    queryKey: ["get-total-spent"],
+    queryFn: getTotalSpent,
+  });
 
   return (
     <div className="flex items-center justify-center w-full h-full">
@@ -45,5 +45,5 @@ export default function Index() {
         </Card>
       )}
     </div>
-  )
+  );
 }

@@ -1,11 +1,22 @@
 {
+  "semi": true,
+  "singleQuote": false,
   "tabWidth": 2,
-  "semi": false,
-  "singleQuote": true,
-  "trailingComma": "none",
-  "bracketSpacing": true,
-  "jsxBracketSameLine": false,
-  "arrowParens": "avoid",
   "printWidth": 80,
-  "plugins": ["prettier-plugin-tailwindcss"]
+  "useTabs": false,
+  "plugins": [
+    "prettier-plugin-tailwindcss",
+    "@ianvs/prettier-plugin-sort-imports"
+  ],
+  "importOrder": [
+    "^@core/(.*)$",
+    "",
+    "^@server/(.*)$",
+    "",
+    "^@ui/(.*)$",
+    "",
+    "^[./]"
+  ],
+  "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"],
+  "importOrderTypeScriptVersion": "5.0.0"
 }

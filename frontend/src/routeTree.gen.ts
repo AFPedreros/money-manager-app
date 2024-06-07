@@ -10,66 +10,66 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as ExpensesImport } from './routes/expenses'
-import { Route as CreateExpenseImport } from './routes/create-expense'
-import { Route as AboutImport } from './routes/about'
-import { Route as IndexImport } from './routes/index'
+import { Route as rootRoute } from "./routes/__root";
+import { Route as AboutImport } from "./routes/about";
+import { Route as CreateExpenseImport } from "./routes/create-expense";
+import { Route as ExpensesImport } from "./routes/expenses";
+import { Route as IndexImport } from "./routes/index";
 
 // Create/Update Routes
 
 const ExpensesRoute = ExpensesImport.update({
-  path: '/expenses',
+  path: "/expenses",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const CreateExpenseRoute = CreateExpenseImport.update({
-  path: '/create-expense',
+  path: "/create-expense",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const AboutRoute = AboutImport.update({
-  path: '/about',
+  path: "/about",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const IndexRoute = IndexImport.update({
-  path: '/',
+  path: "/",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 // Populate the FileRoutesByPath interface
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
-      parentRoute: typeof rootRoute
-    }
-    '/create-expense': {
-      id: '/create-expense'
-      path: '/create-expense'
-      fullPath: '/create-expense'
-      preLoaderRoute: typeof CreateExpenseImport
-      parentRoute: typeof rootRoute
-    }
-    '/expenses': {
-      id: '/expenses'
-      path: '/expenses'
-      fullPath: '/expenses'
-      preLoaderRoute: typeof ExpensesImport
-      parentRoute: typeof rootRoute
-    }
+    "/": {
+      id: "/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof IndexImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/about": {
+      id: "/about";
+      path: "/about";
+      fullPath: "/about";
+      preLoaderRoute: typeof AboutImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/create-expense": {
+      id: "/create-expense";
+      path: "/create-expense";
+      fullPath: "/create-expense";
+      preLoaderRoute: typeof CreateExpenseImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/expenses": {
+      id: "/expenses";
+      path: "/expenses";
+      fullPath: "/expenses";
+      preLoaderRoute: typeof ExpensesImport;
+      parentRoute: typeof rootRoute;
+    };
   }
 }
 
@@ -80,7 +80,7 @@ export const routeTree = rootRoute.addChildren({
   AboutRoute,
   CreateExpenseRoute,
   ExpensesRoute,
-})
+});
 
 /* prettier-ignore-end */
 

@@ -1,9 +1,10 @@
-import { insertExpensesSchema } from './db/schema/expenses';
-import { z } from 'zod';
+import { z } from "zod";
+
+import { insertExpensesSchema } from "./db/schema/expenses";
 
 export const createExpenseSchema = insertExpensesSchema.omit({
-	createdAt: true,
-	id: true,
+  createdAt: true,
+  id: true,
 });
 
 export type CreateExpense = z.infer<typeof createExpenseSchema>;

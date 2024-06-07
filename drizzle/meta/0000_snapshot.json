@@ -43,9 +43,7 @@
       "indexes": {
         "name_idx": {
           "name": "name_idx",
-          "columns": [
-            "user_id"
-          ],
+          "columns": ["user_id"],
           "isUnique": false
         }
       },
