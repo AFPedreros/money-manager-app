@@ -43,6 +43,7 @@ function Expenses() {
         <TableHeader>
           <TableColumn>TITLE</TableColumn>
           <TableColumn>AMOUNT</TableColumn>
+          <TableColumn>DATE</TableColumn>
         </TableHeader>
 
         <TableBody
@@ -71,6 +72,7 @@ function Expenses() {
                 <TableRow key={expense.id}>
                   <TableCell>{expense.title}</TableCell>
                   <TableCell>{formatCurrency(expense.amount)}</TableCell>
+                  <TableCell>{expense.date}</TableCell>
                 </TableRow>
               ))}
         </TableBody>

@@ -8,11 +8,11 @@ export const Route = createRootRoute({
 
 function Root() {
   return (
-    <>
+    <div className="max-w-2xl mx-auto">
       <NavBar />
       <hr />
       <Outlet />
       <TanStackRouterDevtools />
-    </>
+    </div>
   );
 }

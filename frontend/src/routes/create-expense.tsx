@@ -1,7 +1,8 @@
 import { api } from "@/lib/api";
 import { getOrCreateUUID } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Input } from "@nextui-org/react";
+import { parseDate } from "@internationalized/date";
+import { Button, DatePicker, Input } from "@nextui-org/react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -18,6 +19,7 @@ const formSchema = createExpenseSchema.omit({ userId: true });
 function Expenses() {
   const userId = getOrCreateUUID();
   const navigate = useNavigate();
+  const today = new Date().toISOString().split("T")[0];
   const {
     formState: { isValid, isSubmitting, dirtyFields, errors },
     control,
@@ -29,6 +31,7 @@ function Expenses() {
     defaultValues: {
       title: "",
       amount: "",
+      date: today,
     },
     mode: "onChange",
   });
@@ -49,10 +52,8 @@ function Expenses() {
   };
 
   return (
-    <div className="w-full p-2">
-      <div className="flex flex-col items-center justify-center max-w-sm gap-4 ">
-        <h2 className="w-fit"> Hello Create Expense!</h2>
-
+    <div className="w-full p-6">
+      <div className="flex flex-col gap-4 ">
         <form
           className="flex flex-col w-full gap-4"
           onSubmit={handleSubmit(onSubmit)}
@@ -63,7 +64,6 @@ function Expenses() {
             render={({ field }) => (
               <Input
                 type="text"
-                labelPlacement="outside"
                 placeholder="Cat food"
                 fullWidth
                 isClearable
@@ -83,7 +83,6 @@ function Expenses() {
             render={({ field }) => (
               <Input
                 type="number"
-                labelPlacement="outside"
                 startContent={<p className="text-default-400">$</p>}
                 fullWidth
                 label="Amount"
@@ -92,6 +91,21 @@ function Expenses() {
                 errorMessage={errors.amount?.message}
                 isDisabled={isSubmitting}
                 {...field}
+              />
+            )}
+          />
+          <Controller
+            name="date"
+            control={control}
+            render={() => (
+              <DatePicker
+                label="Date"
+                isRequired
+                defaultValue={parseDate(today)}
+                isInvalid={!!errors.date && dirtyFields.date}
+                errorMessage={errors.date?.message}
+                isDisabled={isSubmitting}
+                onChange={(date) => setValue("date", date.toString())}
               />
             )}
           />

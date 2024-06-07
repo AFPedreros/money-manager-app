@@ -24,7 +24,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <NextUIProvider>
       <QueryClientProvider client={queryClient}>
-        <main className="min-h-screen w-full bg-background text-foreground dark">
+        <main className="w-full min-h-screen bg-content1">
           <RouterProvider router={router} />
           <Toaster richColors />
         </main>
