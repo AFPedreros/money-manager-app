@@ -1,9 +1,13 @@
 {
   "type": "module",
   "scripts": {
+    "start": "vercel dev",
+    "deploy": "vercel",
     "dev": "tsx watch server/index.ts",
     "dev:frontend": "cd frontend && npm run dev",
-    "start": "tsx server/index.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
     "format": "prettier --write ."
   },
   "dependencies": {
