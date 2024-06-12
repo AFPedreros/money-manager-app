@@ -3,9 +3,7 @@ import { handle } from "hono/vercel";
 
 import app from "./app";
 
-export const config = {
-  runtime: "edge",
-};
+export const runtime = "edge";
 
 const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
