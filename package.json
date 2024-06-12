@@ -1,8 +1,7 @@
 {
-  "type": "module",
   "scripts": {
-    "start": "vercel dev",
-    "deploy": "vercel",
+    "build": "echo 🔥",
+    "start": "tsx server/index.ts",
     "dev": "tsx watch server/index.ts",
     "dev:frontend": "cd frontend && npm run dev",
     "db:generate": "drizzle-kit generate",
