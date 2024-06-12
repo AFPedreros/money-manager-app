@@ -48,8 +48,6 @@ function Expenses() {
       getAllExpensesQueryOptions,
     );
 
-    // navigate({ to: "/expenses" });
-
     const data = {
       ...values,
       userId,

@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "scripts": {
     "dev": "tsx watch server/index.ts",
     "dev:frontend": "cd frontend && npm run dev",
